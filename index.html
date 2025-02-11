@@ -32,7 +32,7 @@
         .heart button:hover {
             background-color: #ff1a1a;
         }
-        .photo-container {
+        .photo-container, .message-container {
             display: none;
             position: fixed;
             top: 0;
@@ -42,11 +42,17 @@
             background-color: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
         .photo-container img {
             max-width: 90%;
             max-height: 90%;
             border-radius: 10px;
+        }
+        .message-container h1 {
+            color: white;
+            font-size: 40px;
+            text-align: center;
         }
         .close-btn {
             position: absolute;
@@ -73,7 +79,7 @@
         <button style="grid-column: 2 / 3; grid-row: 3 / 4;" onclick="showPhoto('photo6.jpg')">❤️</button>
         <button style="grid-column: 4 / 5; grid-row: 3 / 4;" onclick="showPhoto('photo7.jpg')">❤️</button>
         <button style="grid-column: 3 / 4; grid-row: 4 / 5;" onclick="showPhoto('photo9.jpg')">❤️</button>
-        </div>
+    </div>
 
     <!-- Контейнер для фотографий -->
     <div class="photo-container" id="photoContainer">
@@ -81,17 +87,51 @@
         <button class="close-btn" onclick="hidePhoto()">Закрыть</button>
     </div>
 
+    <!-- Контейнер для сообщения -->
+    <div class="message-container" id="messageContainer">
+        <h1>Я люблю тебя, Лизонька ❤️</h1>
+        <button class="close-btn" onclick="hideMessage()">Закрыть</button>
+    </div>
+
     <script>
+        // Массив для отслеживания открытых фотографий
+        const openedPhotos = new Set();
+
+        // Функция для показа фотографии
         function showPhoto(photoSrc) {
             const photoContainer = document.getElementById('photoContainer');
             const photo = document.getElementById('photo');
             photo.src = photoSrc;
             photoContainer.style.display = 'flex';
+
+            // Добавляем фото в список открытых
+            openedPhotos.add(photoSrc);
+
+            // Проверяем, все ли фото открыты
+            if (openedPhotos.size === 8) { // 8 — общее количество фотографий
+                setTimeout(() => {
+                    hidePhoto(); // Закрываем фото
+                    showMessage(); // Показываем сообщение
+                }, 1000); // Задержка 1 секунда
+            }
         }
 
+        // Функция для скрытия фотографии
         function hidePhoto() {
             const photoContainer = document.getElementById('photoContainer');
             photoContainer.style.display = 'none';
+        }
+
+        // Функция для показа сообщения
+        function showMessage() {
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.style.display = 'flex';
+        }
+
+        // Функция для скрытия сообщения
+        function hideMessage() {
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.style.display = 'none';
         }
     </script>
 </body>
