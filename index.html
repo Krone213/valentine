@@ -86,12 +86,13 @@
         /* Декоративная стрелочка */
         .arrow {
             position: absolute;
-            top: -80px;
+            top: -60px; /* Расположение стрелочки над кнопкой */
             left: 50%;
             transform: translateX(-50%);
             width: 100px;
             height: 100px;
             animation: bounce 2s infinite;
+            z-index: 10; /* Убедимся, что стрелочка поверх других элементов */
         }
         .arrow::before {
             content: '';
@@ -137,12 +138,14 @@
         <button style="grid-column: 4 / 5; grid-row: 3 / 4;" onclick="showPhoto('photo7.jpg')">❤️</button>
         <button style="grid-column: 3 / 4; grid-row: 4 / 5;" onclick="showPhoto('photo8.jpg')">❤️</button>
     </div>
-
+    <h1></h1>
+    
     <!-- Кнопка для включения музыки -->
-    <button id="musicButton" onclick="playMusic()">Включить музыку</button>
-
-    <!-- Декоративная стрелочка -->
-    <div class="arrow"></div>
+    <div  style="position: relative;">
+        <button id="musicButton" onclick="playMusic()">Включить музыку</button>
+        <!-- Декоративная стрелочка -->
+        <div class="arrow"></div>
+    </div>
 
     <!-- Контейнер для фотографий -->
     <div class="photo-container" id="photoContainer">
@@ -181,7 +184,7 @@
                 setTimeout(() => {
                     hidePhoto(); // Закрываем фото
                     showMessage(); // Показываем сообщение
-                }, 2300); // Задержка 2 секунда
+                }, 2300); // Задержка 3 секунды
             }
         }
 
@@ -206,7 +209,11 @@
         // Функция для включения музыки
         function playMusic() {
             const music = document.getElementById('backgroundMusic');
-            music.play();
+            music.play().then(() => {
+                console.log('Музыка начала играть');
+            }).catch((error) => {
+                console.error('Ошибка воспроизведения музыки:', error);
+            });
             document.getElementById('musicButton').style.display = 'none'; // Скрываем кнопку после включения музыки
             document.querySelector('.arrow').style.display = 'none'; // Скрываем стрелочку
         }
