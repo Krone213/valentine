@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Наши фотографии</title>
+    <title>Валентинка</title>
     <style>
         body {
             display: flex;
@@ -14,6 +14,7 @@
             background-color: #ffe6f2;
             font-family: Arial, sans-serif;
             flex-direction: column;
+            position: relative;
         }
         .heart {
             display: grid;
@@ -80,6 +81,47 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            position: relative;
+        }
+        /* Декоративная стрелочка */
+        .arrow {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            animation: bounce 2s infinite;
+        }
+        .arrow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border-bottom: 3px solid #ff4d4d;
+            border-right: 3px solid #ff4d4d;
+            transform: rotate(45deg) translateX(-50%);
+        }
+        .arrow::after {
+            content: 'Сначала нажми это';
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #ff4d4d;
+            white-space: nowrap;
+        }
+        /* Анимация стрелочки */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px);
+            }
         }
     </style>
 </head>
@@ -87,17 +129,20 @@
     <div class="heart">
         <!-- Кнопки в форме сердца -->
         <button style="grid-column: 2 / 3; grid-row: 1 / 2;" onclick="showPhoto('photo1.jpg')">❤️</button>
-        <button style="grid-column: 4 / 5; grid-row: 1 / 2;" onclick="showPhoto('photo2.jpg')">❤️</button>
+        <button style="grid-column: 4 / 5; grid-row: 1 / 2;" onclick="showPhoto('vif2.gif')">❤️</button>
         <button style="grid-column: 1 / 2; grid-row: 2 / 3;" onclick="showPhoto('photo3.jpg')">❤️</button>
         <button style="grid-column: 3 / 4; grid-row: 2 / 3;" onclick="showPhoto('photo4.jpg')">❤️</button>
         <button style="grid-column: 5 / 6; grid-row: 2 / 3;" onclick="showPhoto('photo5.jpg')">❤️</button>
         <button style="grid-column: 2 / 3; grid-row: 3 / 4;" onclick="showPhoto('photo6.jpg')">❤️</button>
         <button style="grid-column: 4 / 5; grid-row: 3 / 4;" onclick="showPhoto('photo7.jpg')">❤️</button>
-        <button style="grid-column: 3 / 4; grid-row: 4 / 5;" onclick="showPhoto('photo9.jpg')">❤️</button>
+        <button style="grid-column: 3 / 4; grid-row: 4 / 5;" onclick="showPhoto('photo8.jpg')">❤️</button>
     </div>
 
     <!-- Кнопка для включения музыки -->
     <button id="musicButton" onclick="playMusic()">Включить музыку</button>
+
+    <!-- Декоративная стрелочка -->
+    <div class="arrow"></div>
 
     <!-- Контейнер для фотографий -->
     <div class="photo-container" id="photoContainer">
@@ -136,7 +181,7 @@
                 setTimeout(() => {
                     hidePhoto(); // Закрываем фото
                     showMessage(); // Показываем сообщение
-                }, 1000); // Задержка 1 секунда
+                }, 3000); // Задержка 2 секунда
             }
         }
 
@@ -163,6 +208,7 @@
             const music = document.getElementById('backgroundMusic');
             music.play();
             document.getElementById('musicButton').style.display = 'none'; // Скрываем кнопку после включения музыки
+            document.querySelector('.arrow').style.display = 'none'; // Скрываем стрелочку
         }
     </script>
 </body>
