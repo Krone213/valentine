@@ -21,6 +21,7 @@
             grid-template-columns: repeat(5, 50px);
             grid-template-rows: repeat(5, 50px);
             gap: 5px;
+            position: relative; /* Добавили для позиционирования стрелочки */
         }
         .heart button {
             background-color: #ff4d4d;
@@ -115,6 +116,39 @@
             color: #ff4d4d;
             white-space: nowrap;
         }
+        /* Вторая стрелочка */
+        .arrow-heart {
+            position: absolute;
+            top: -80px; /* Расположение стрелочки над сердечками */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            animation: bounce 2s infinite;
+            z-index: 10;
+            display: none; /* Сначала скрыта */
+        }
+        .arrow-heart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border-bottom: 3px solid #ff4d4d;
+            border-right: 3px solid #ff4d4d;
+            transform: rotate(45deg) translateX(-50%);
+        }
+        .arrow-heart::after {
+            content: 'Теперь нажимай на сердечки';
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #ff4d4d;
+            white-space: nowrap;
+        }
         /* Анимация стрелочки */
         @keyframes bounce {
             0%, 100% {
@@ -127,6 +161,7 @@
     </style>
 </head>
 <body>
+    <!-- Контейнер для сердечек -->
     <div class="heart">
         <!-- Кнопки в форме сердца -->
         <button style="grid-column: 2 / 3; grid-row: 1 / 2;" onclick="showPhoto('photo1.jpg')">❤️</button>
@@ -137,11 +172,14 @@
         <button style="grid-column: 2 / 3; grid-row: 3 / 4;" onclick="showPhoto('photo6.jpg')">❤️</button>
         <button style="grid-column: 4 / 5; grid-row: 3 / 4;" onclick="showPhoto('photo7.jpg')">❤️</button>
         <button style="grid-column: 3 / 4; grid-row: 4 / 5;" onclick="showPhoto('photo8.jpg')">❤️</button>
+        
+        <!-- Вторая стрелочка -->
+        <div class="arrow-heart" id="arrowHeart"></div>
     </div>
-    <h1></h1>
     
+    <h1></h1>
     <!-- Кнопка для включения музыки -->
-    <div  style="position: relative;">
+    <div style="position: relative;">
         <button id="musicButton" onclick="playMusic()">Включить музыку</button>
         <!-- Декоративная стрелочка -->
         <div class="arrow"></div>
@@ -179,12 +217,15 @@
             // Добавляем фото в список открытых
             openedPhotos.add(photoSrc);
 
+            // Скрываем вторую стрелочку после нажатия на любое сердечко
+            document.getElementById('arrowHeart').style.display = 'none';
+
             // Проверяем, все ли фото открыты
             if (openedPhotos.size === 8) { // 8 — общее количество фотографий
                 setTimeout(() => {
                     hidePhoto(); // Закрываем фото
                     showMessage(); // Показываем сообщение
-                }, 2300); // Задержка 3 секунды
+                }, 2300); // Задержка 2.3 секунды
             }
         }
 
@@ -215,7 +256,8 @@
                 console.error('Ошибка воспроизведения музыки:', error);
             });
             document.getElementById('musicButton').style.display = 'none'; // Скрываем кнопку после включения музыки
-            document.querySelector('.arrow').style.display = 'none'; // Скрываем стрелочку
+            document.querySelector('.arrow').style.display = 'none'; // Скрываем первую стрелочку
+            document.getElementById('arrowHeart').style.display = 'block'; // Показываем вторую стрелочку
         }
     </script>
 </body>
